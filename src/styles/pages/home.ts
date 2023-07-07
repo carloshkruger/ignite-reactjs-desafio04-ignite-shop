@@ -4,7 +4,7 @@ import { styled } from "..";
 export const HomeContainer = styled('main', {
   display: "flex",
   width: '100%',
-  maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
+  maxWidth: 'calc(100vw - ((100vw - 1440px) / 2))',
   marginLeft: 'auto',
   minHeight: 656
 })
@@ -43,16 +43,34 @@ export const Product = styled(Link, {
     opacity: '0',
     transition: 'all 0.2s ease-in-out',
 
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100'
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+
+      strong: {
+        fontSize: '$lg',
+        color: '$gray100'
+      },
+  
+      span: {
+        fontSize: '$xl',
+        fontWeight: 'bold',
+        color: '$green300',
+        marginTop: '0.5rem'
+      },
     },
 
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300'
-    }
+    button: {
+      background: '$green500',
+      border: 0,
+      padding: '0.75rem',
+      borderRadius: 6,
+      cursor: 'pointer',
+  
+      svg: {
+        color: '$white',
+      }
+    },
   },
 
   '&:hover': {
