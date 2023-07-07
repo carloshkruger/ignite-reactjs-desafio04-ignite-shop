@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    domains: ['files.stripe.com']
+    domains: ['files.stripe.com', 'avatars.githubusercontent.com']
   }
 }
 

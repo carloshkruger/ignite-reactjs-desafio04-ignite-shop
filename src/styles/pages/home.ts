@@ -69,6 +69,10 @@ export const Product = styled(Link, {
   
       svg: {
         color: '$white',
+      },
+
+      '&:hover': {
+        background: '$green300',
       }
     },
   },

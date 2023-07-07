@@ -41,7 +41,7 @@ export default function Home({ products }: HomeProps) {
                 <strong>{product.name}</strong>
                 <span>{product.price}</span>
               </div>
-              <button title="Adicionar a sacola">
+              <button title="Adicionar à sacola">
                 <Handbag size={32} />
               </button>
             </footer>

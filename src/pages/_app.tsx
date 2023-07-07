@@ -2,10 +2,11 @@ import { AppProps } from "next/app"
 import Image from "next/image"
 import * as Dialog from '@radix-ui/react-dialog';
 import { globalStyles } from "../styles/global"
-import { Container, Header, ShoppingBagContainer } from "../styles/pages/app"
+import { Container, HandbagButton, Header, ItemsContainer, QuantityContainer, ShoppingBagContainer, TotalText, TotalValue } from "../styles/pages/app"
 
 import logoImg from '../assets/logo.svg'
 import { Handbag, X } from "phosphor-react"
+import Link from "next/link";
 
 globalStyles()
 
@@ -13,14 +14,16 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <Header>
-        <Image src={logoImg} alt="" />
+        <Link href="/">
+          <Image src={logoImg} alt="" />
+        </Link>
 
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <button title="Sacola de compras">
-              <Handbag size={48} />
+            <HandbagButton title="Sacola de compras" hasItems>
+              <Handbag size={24} />
               <span>1</span>
-            </button>
+            </HandbagButton>
           </Dialog.Trigger>
 
           <Dialog.Portal>
@@ -31,18 +34,35 @@ function App({ Component, pageProps }: AppProps) {
               <div>
                 <Dialog.Title>Sacola de compras</Dialog.Title>
 
-                <div>
+                <ItemsContainer>
+                  {/* <span>A sacola está vazia</span> */}
+                  <div>
+                    <Image src="https://avatars.githubusercontent.com/u/18452687?v=4" width={94} height={94} alt="" />
+                    <div>
+                      <span>Camiseta Beyond the Limits</span>
+                      <strong>R$ 79,90</strong>
+                      <button>Remover</button>
+                    </div>
+                  </div>
 
-                </div>
+                  <div>
+                    <Image src="https://avatars.githubusercontent.com/u/18452687?v=4" width={94} height={94} alt="" />
+                    <div>
+                      <span>Camiseta Beyond the Limits</span>
+                      <strong>R$ 79,90</strong>
+                      <button>Remover</button>
+                    </div>
+                  </div>
+                </ItemsContainer>
 
                 <footer>
-                  <div>
+                  <QuantityContainer>
                     <span>Quantidade</span>
                     <span>3 items</span>
-                  </div>
+                  </QuantityContainer>
                   <div>
-                    <span><strong>Valor total</strong></span>
-                    <span><strong>R$ 270,00</strong></span>
+                    <TotalText>Valor total</TotalText>
+                    <TotalValue>R$ 270,00</TotalValue>
                   </div>
 
                   <button>
