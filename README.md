@@ -1,3 +1,11 @@
+# Ignite Shop Challenge
+
+Fourth IgniteJS Bootcamp challenge: Ignite Shop.
+
+![Desktop screenshot 1](./.screenshots/screenshot_desktop1.png)
+![Desktop screenshot 2](./.screenshots/screenshot_desktop2.png)
+![Desktop screenshot 3](./.screenshots/screenshot_desktop3.png)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
