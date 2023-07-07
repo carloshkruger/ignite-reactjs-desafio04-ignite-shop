@@ -1,43 +1,33 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import { stripe } from "../../lib/stripe"
-import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
-import Stripe from "stripe"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import axios from "axios"
-import { useState } from "react"
+import { useContext } from "react"
 import Head from "next/head"
+import Stripe from "stripe"
+import { stripe } from "../../lib/stripe"
+import { ShoppingBagContext } from "../../contexts/ShoppingBagContext"
+import { currencyFormatter } from "../../utils/currencyFormatter"
+
+import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 
 interface ProductProps {
   product: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
+    formattedPrice: string
     description: string
     defaultPriceId: string
   }
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
   const { isFallback } = useRouter()
+  const { addToBag } = useContext(ShoppingBagContext)
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId
-      })
-
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (error) {
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao redirecionar ao checkout.')
-    }
+  async function handleAddToBag() {
+    addToBag(product)
   }
 
   if (isFallback) {
@@ -57,12 +47,12 @@ export default function Product({ product }: ProductProps) {
 
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{product.formattedPrice}</span>
 
           <p>{product.description}</p>
 
-          <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
-            Comprar agora
+          <button onClick={handleAddToBag}>
+            Colocar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
@@ -72,11 +62,7 @@ export default function Product({ product }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
-    paths: [
-      {
-        params: { id: 'prod_ODJSPYoBKyPE30' }
-      }
-    ],
+    paths: [],
     fallback: true
   }
 }
@@ -88,16 +74,14 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
   })
 
   const defaultPrice = response.default_price as Stripe.Price
-  const currencyFormatter = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  })
+  const price = defaultPrice.unit_amount / 100
 
   const product = {
     id: response.id,
     name: response.name,
     imageUrl: response.images[0],
-    price: currencyFormatter.format(defaultPrice.unit_amount / 100),
+    price,
+    formattedPrice: currencyFormatter.format(price),
     description: response.description,
     defaultPriceId: defaultPrice.id
   }
